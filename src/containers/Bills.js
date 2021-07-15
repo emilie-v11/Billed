@@ -54,8 +54,9 @@ export default class {
                             try {
                                 return {
                                     ...doc.data(),
-                                    date: formatDate(doc.data().date),
+                                    date: doc.data().date,
                                     status: formatStatus(doc.data().status),
+                                    formatedDate: formatDate(doc.data().date),
                                 };
                             } catch (e) {
                                 // if for some reason, corrupted data was introduced, we manage here failing formatDate function
@@ -76,3 +77,14 @@ export default class {
         }
     };
 }
+// .then(snapshot => {
+//     const bills = snapshot.docs
+//         .map(doc => ({
+//             ...doc.data(),
+//             date: formatDate(doc.data().date),
+//             status: formatStatus(doc.data().status),
+//         }))
+//         .filter(bill => bill.email === userEmail)
+//     return bills;
+// })
+// .catch(error => error);
