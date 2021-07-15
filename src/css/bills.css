@@ -1,7 +1,7 @@
 .content {
   width: 100%;
   margin-top: 76px; 
-  margin-left: 76px; 
+  margin-left: 156px; 
   margin-right: 76px;
 }
 
@@ -10,7 +10,7 @@
   border: solid 1px lightgrey;
   border-radius: 5px;
   padding: 50px;
-  min-height: 100vh;
+  /* min-height: 100vh; */
 }
 
 .content-header {
