@@ -41,18 +41,18 @@ export const card = bill => {
     <div class='bill-card' id='open-bill${bill.id}' data-testid='open-bill${
         bill.id
     }'>
-      <div class='bill-card-name-container'>
-        <div class='bill-card-name'> ${firstName} ${lastName} </div>
-        <span class='bill-card-grey'> ... </span>
-      </div>
-      <div class='name-price-container'>
-        <span> ${bill.name} </span>
-        <span> ${bill.amount} € </span>
-      </div>
-      <div class='date-type-container'>
-        <span> ${formatDate(bill.date)} </span>
-        <span> ${bill.type} </span>
-      </div>
+        <div class='bill-card-name-container'>
+            <div class='bill-card-name'> ${firstName} ${lastName} </div>
+            <span class='bill-card-grey'> ... </span>
+        </div>
+        <div class='name-price-container'>
+            <span> ${bill.name} </span>
+            <span> ${bill.amount} € </span>
+        </div>
+        <div class='date-type-container'>
+            <span> ${formatDate(bill.date)} </span>
+            <span> ${bill.type} </span>
+        </div>
     </div>
   `;
 };
@@ -97,40 +97,43 @@ export default class {
     };
 
     handleEditTicket(e, bill, bills) {
+        console.log('1', this.counter, this.id, bill.id);
         if (this.counter === undefined || this.id !== bill.id) this.counter = 0;
-        if (this.id === undefined || this.id !== bill.id)
-            this.id = bill.id;
-        if (this.counter % 2 === 0) {
+        if (this.id === undefined || this.id !== bill.id) this.id = bill.id;
+        if (this.counter % 3 === 0 || this.counter % 2 === 0) {
             bills.forEach(b => {
                 $(`#open-bill${b.id}`).css({ background: '#0D5AE5' });
             });
             $(`#open-bill${bill.id}`).css({ background: '#2A2B35' });
             $('.dashboard-right-container div').html(DashboardFormUI(bill));
             $('.vertical-navbar').css({ height: '150vh' });
-            this.counter++;
+            // this.counter++;
+            console.log('2', this.counter, this.id, bill.id);
         } else {
             $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' });
 
             $('.dashboard-right-container div').html(`
-        <div id="big-billed-icon"> ${BigBilledIcon} </div>
-      `);
+            <div id="big-billed-icon"> ${BigBilledIcon} </div>
+          `);
             $('.vertical-navbar').css({ height: '120vh' });
-            this.counter++;
+            console.log('3', this.counter, this.id, bill.id);
         }
+        // this.counter++;
         $('#icon-eye-d').click(this.handleClickIconEye);
         $('#btn-accept-bill').click(e => this.handleAcceptSubmit(e, bill));
         $('#btn-refuse-bill').click(e => this.handleRefuseSubmit(e, bill));
 
-        // document
-        //     .querySelector('#icon-eye-d')
-        //     .addEventListener('click', this.handleClickIconEye);
-        // document
-        //     .querySelector('#btn-accept-bill')
-        //     .addEventListener('click', e => this.handleAcceptSubmit(e, bill));
-        // document
-        //     .querySelector('#btn-refuse-bill')
-        //     .addEventListener('click', e => this.handleRefuseSubmit(e, bill));
+        console.log('4', this.counter, this.id, bill.id);
     }
+    // document
+    //     .querySelector('#icon-eye-d')
+    //     .addEventListener('click', this.handleClickIconEye);
+    // document
+    //     .querySelector('#btn-accept-bill')
+    //     .addEventListener('click', e => this.handleAcceptSubmit(e, bill));
+    // document
+    //     .querySelector('#btn-refuse-bill')
+    //     .addEventListener('click', e => this.handleRefuseSubmit(e, bill));
 
     handleAcceptSubmit = (e, bill) => {
         const newBill = {
@@ -153,7 +156,6 @@ export default class {
     };
 
     handleShowTickets(e, bills, index) {
-        
         if (this.counter === undefined || this.index !== index)
             this.counter = 0;
         if (this.index === undefined || this.index !== index)
