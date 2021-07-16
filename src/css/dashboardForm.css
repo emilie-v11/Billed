@@ -71,10 +71,7 @@
   background-color: #0D5AE5;
 }
 
-#icon-eye-d {
-  cursor: pointer;
-}
-
+#icon-eye-d,
 #icon-download-d {
   cursor: pointer;
 }

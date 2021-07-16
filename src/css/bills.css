@@ -59,10 +59,9 @@
     -webkit-box-pack: justify;
     -webkit-justify-content: space-around;
     -ms-flex-pack: justify;
-    /* justify-content: space-around; */
-    justify-content: space-between;
-
+    justify-content: space-around;
     align-items: center;
+    cursor: pointer;
 }
 
 .table td,

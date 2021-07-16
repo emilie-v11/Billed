@@ -98,7 +98,8 @@ export default class {
 
     handleEditTicket(e, bill, bills) {
         if (this.counter === undefined || this.id !== bill.id) this.counter = 0;
-        if (this.id === undefined || this.id !== bill.id) this.id = bill.id;
+        if (this.id === undefined || this.id !== bill.id)
+            this.id = bill.id;
         if (this.counter % 2 === 0) {
             bills.forEach(b => {
                 $(`#open-bill${b.id}`).css({ background: '#0D5AE5' });
@@ -116,6 +117,10 @@ export default class {
             $('.vertical-navbar').css({ height: '120vh' });
             this.counter++;
         }
+        $('#icon-eye-d').click(this.handleClickIconEye);
+        $('#btn-accept-bill').click(e => this.handleAcceptSubmit(e, bill));
+        $('#btn-refuse-bill').click(e => this.handleRefuseSubmit(e, bill));
+
         // document
         //     .querySelector('#icon-eye-d')
         //     .addEventListener('click', this.handleClickIconEye);
@@ -125,10 +130,6 @@ export default class {
         // document
         //     .querySelector('#btn-refuse-bill')
         //     .addEventListener('click', e => this.handleRefuseSubmit(e, bill));
-
-        $('#icon-eye-d').click(this.handleClickIconEye);
-        $('#btn-accept-bill').click(e => this.handleAcceptSubmit(e, bill));
-        $('#btn-refuse-bill').click(e => this.handleRefuseSubmit(e, bill));
     }
 
     handleAcceptSubmit = (e, bill) => {

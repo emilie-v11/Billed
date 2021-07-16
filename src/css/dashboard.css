@@ -4,8 +4,8 @@
 }
 
 .dashboard-right-container {
-    /* position: absolute; */
-    position: fixed;
+    position: absolute;
+    /* position: fixed; */
     left: 530px;
     top: 50px;
     border: 2px solid #f3f5fa;
