@@ -8,9 +8,9 @@ describe('Given I am connected as an employee', () => {
         test('Then bill icon in vertical layout should be highlighted', () => {
             const html = BillsUI({ data: [] });
             document.body.innerHTML = html;
-
-            //TODO write expect expression
+            // to-do write expect expression
         });
+
         test('Then bills should be ordered from earliest to latest', () => {
             // const html = BillsUI({ data: bills });
             const billsRended = [...bills];
@@ -28,6 +28,18 @@ describe('Given I am connected as an employee', () => {
             const antiChrono = (a, b) => (a < b ? 1 : -1);
             const datesSorted = [...dates].sort(antiChrono);
             expect(dates).toEqual(datesSorted);
+        });
+
+        test('Then loading page should be rendered', () => {
+            const html = BillsUI({ loading: true });
+            document.body.innerHTML = html;
+            expect(screen.getAllByText('Loading...')).toBeTruthy();
+        });
+
+        test('Then error page should be rendered', () => {
+            const html = BillsUI({ error: 'error' });
+            document.body.innerHTML = html;
+            expect(screen.getAllByText('Erreur')).toBeTruthy();
         });
     });
 });
