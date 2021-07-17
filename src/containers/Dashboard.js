@@ -96,19 +96,47 @@ export default class {
             $('#modaleFileAdmin1').modal('show');
     };
 
+    // Original code :
+    // handleEditTicket(e, bill, bills) {
+    //     if (this.counter === undefined || this.id !== bill.id) this.counter = 0;
+    //     if (this.id === undefined || this.id !== bill.id) this.id = bill.id;
+    //     if (this.counter % 2 === 0) {
+    //         bills.forEach(b => {
+    //             $(`#open-bill${b.id}`).css({ background: '#0D5AE5' });
+    //         });
+    //         $(`#open-bill${bill.id}`).css({ background: '#2A2B35' });
+    //         $('.dashboard-right-container div').html(DashboardFormUI(bill));
+    //         $('.vertical-navbar').css({ height: '150vh' });
+    //         this.counter++;
+    //     } else {
+    //         $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' });
+
+    //         $('.dashboard-right-container div').html(`
+    //         <div id="big-billed-icon"> ${BigBilledIcon} </div>
+    //         `);
+    //         $('.vertical-navbar').css({ height: '120vh' });
+    //         this.counter++;
+    //     }
+    //     $('#icon-eye-d').click(this.handleClickIconEye);
+    //     $('#btn-accept-bill').click(e => this.handleAcceptSubmit(e, bill));
+    //     $('#btn-refuse-bill').click(e => this.handleRefuseSubmit(e, bill));
+    // }
+
     handleEditTicket(e, bill, bills) {
-        // console.log('1', this.counter, this.id, bill.id);
         bills.forEach(b => {
             $(`#open-bill${b.id}`).css({ background: '#0D5AE5' }); // bg-blue
+            // this.counter++;
         });
         if (this.counter === undefined || this.id !== bill.id) this.counter = 0;
         if (this.id === undefined || this.id !== bill.id) this.id = bill.id;
         if (this.counter % 2 === 0 || this.counter % 3 === 0) {
+            // bg-black + DashboardFormUI(bill) ==> bill selected / bill displayed
             $(`#open-bill${bill.id}`).css({ background: '#2A2B35' }); // bg-black
             $('.dashboard-right-container div').html(DashboardFormUI(bill));
             this.counter++;
         } else {
-            $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' });
+            // bg-blue + BigBilledIcon ==> no section / empty
+            $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' }); // bg-blue
 
             $('.dashboard-right-container div').html(`
                 <div id="big-billed-icon"> ${BigBilledIcon} </div>
@@ -119,6 +147,31 @@ export default class {
         $('#btn-accept-bill').click(e => this.handleAcceptSubmit(e, bill));
         $('#btn-refuse-bill').click(e => this.handleRefuseSubmit(e, bill));
     }
+
+    // handleEditTicket(e, bill, bills) {
+    //     // console.log('1', this.counter, this.id, bill.id);
+    //     bills.forEach(b => {
+    //         $(`#open-bill${b.id}`).css({ background: '#0D5AE5' }); // bg-blue
+    //         this.counter++;
+    //     });
+    //     if (this.counter === undefined || this.id !== bill.id) this.counter = 0;
+    //     if (this.id === undefined || this.id !== bill.id) this.id = bill.id;
+    //     if (this.counter % 2 === 0 || this.counter % 3 === 0) {
+    //         $(`#open-bill${bill.id}`).css({ background: '#2A2B35' }); // bg-black
+    //         $('.dashboard-right-container div').html(DashboardFormUI(bill));
+    //         this.counter++;
+    //     } else {
+    //         $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' });
+
+    //         $('.dashboard-right-container div').html(`
+    //             <div id="big-billed-icon"> ${BigBilledIcon} </div>
+    //         `);
+    //         this.counter++;
+    //     }
+    //     $('#icon-eye-d').click(this.handleClickIconEye);
+    //     $('#btn-accept-bill').click(e => this.handleAcceptSubmit(e, bill));
+    //     $('#btn-refuse-bill').click(e => this.handleRefuseSubmit(e, bill));
+    // }
 
     // document
     //     .querySelector('#icon-eye-d')
