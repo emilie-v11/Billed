@@ -40,11 +40,11 @@ describe('Given I am connected as an employee', () => {
         });
 
         test('Then bills should be ordered from earliest to latest', () => {
-            const billsRended = [...bills];
-            billsRended.map(bill => {
+            const billsRendered = [...bills];
+            billsRendered.map(bill => {
                 bill.formatedDate = bill.date;
             });
-            const html = BillsUI({ data: billsRended });
+            const html = BillsUI({ data: billsRendered });
             document.body.innerHTML = html;
             const dates = screen
                 .getAllByText(
@@ -62,7 +62,7 @@ describe('Given I am connected as an employee', () => {
             expect(screen.getAllByText('Loading...')).toBeTruthy();
         });
 
-        test('Then if error page should be rendered', () => {
+        test('Then, error should be rendered', () => {
             const html = BillsUI({ error: 'error' });
             document.body.innerHTML = html;
             expect(screen.getAllByText('Erreur')).toBeTruthy();
@@ -94,7 +94,54 @@ describe('Given I am connected as an employee', () => {
         });
 
         describe('When I click on the "New Bill" button', () => {
-            test('Then NewBill page should be rendered', () => {});
+            test('Then NewBill page should be rendered', () => {
+                const html = BillsUI({ data: [] });
+                document.body.innerHTML = html;
+                const onNavigate = pathname => {
+                    document.body.innerHTML = ROUTES({ pathname });
+                };
+                const bill = new Bills({
+                    document,
+                    onNavigate,
+                    firestore: null,
+                    localStorage: window.localStorage,
+                });
+                const button = document.querySelector(
+                    '[data-testid=btn-new-bill]'
+                );
+                const buttonNewBill = jest.fn(e => bill.handleClickNewBill(e));
+                button.addEventListener('click', buttonNewBill);
+                fireEvent.click(button);
+                expect(buttonNewBill).toHaveBeenCalled();
+            });
+        });
+    });
+
+    // Intégration test GET
+    describe('When I navigate to Bills UI', () => {
+        test('fetches bills from mock API GET', async () => {
+            const getSpy = jest.spyOn(firebase, 'get');
+            const bills = await firebase.get();
+            expect(getSpy).toHaveBeenCalledTimes(1);
+            expect(bills.data.length).toBe(4);
+        });
+        test('fetches bills from an API and fails with 404 message error', async () => {
+            firebase.get.mockImplementationOnce(() =>
+                Promise.reject(new Error('Erreur 404'))
+            );
+            const html = BillsUI({ error: 'Erreur 404' });
+            document.body.innerHTML = html;
+            const message = await screen.getByText(/Erreur 404/);
+            expect(message).toBeTruthy();
+        });
+        test('fetches messages from an API and fails with 500 message error', async () => {
+            firebase.get.mockImplementationOnce(() =>
+                Promise.reject(new Error('Erreur 500'))
+            );
+            const html = BillsUI({ error: 'Erreur 500' });
+            document.body.innerHTML = html;
+            const message = await screen.getByText(/Erreur 500/);
+            expect(message).toBeTruthy();
         });
     });
 });
