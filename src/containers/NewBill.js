@@ -16,20 +16,28 @@ export default class NewBill {
         this.fileName = null;
         new Logout({ document, localStorage, onNavigate });
     }
+
+    falseAlert = e => {
+        window.alert('Choose a jpg, jpeg, or png format');
+    };
+
     handleChangeFile = e => {
         const file = this.document.querySelector(`input[data-testid="file"]`)
             .files[0];
-        const filePath = e.target.value.split(/\\/g);
+        const filePath = file.name.split(/\\/g);
         const fileName = filePath[filePath.length - 1];
-        this.firestore.storage
-            .ref(`justificatifs/${fileName}`)
-            .put(file)
-            .then(snapshot => snapshot.ref.getDownloadURL())
-            .then(url => {
-                this.fileUrl = url;
-                this.fileName = fileName;
-            });
+        const ext = file.name
+            .slice(((file.name.lastIndexOf('.') - 1) >>> 0) + 2)
+            .toLowerCase();
+        const acceptedFormat = ['jpg', 'png', 'jpeg'];
+        if (acceptedFormat.includes(ext)) {
+            this.handleFile(file, fileName);
+        } else {
+            this.document.querySelector(`input[data-testid="file"]`).value = '';
+            this.falseAlert();
+        }
     };
+
     handleSubmit = e => {
         e.preventDefault();
         console.log(
@@ -72,6 +80,20 @@ export default class NewBill {
                 .add(bill)
                 .then(() => {
                     this.onNavigate(ROUTES_PATH['Bills']);
+                })
+                .catch(error => error);
+        }
+    };
+
+    handleFile = (file, fileName) => {
+        if (this.firestore) {
+            this.irestore.storage
+                .ref(`justificatifs/${fileName}`)
+                .put(file)
+                .then(snapshot => snapshot.ref.getDownloadURL())
+                .then(url => {
+                    this.fileUrl = url;
+                    this.fileName = fileName;
                 })
                 .catch(error => error);
         }

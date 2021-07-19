@@ -4,21 +4,20 @@ import { bills } from '../fixtures/bills.js';
 import Bills from '../containers/Bills.js';
 import Router from '../app/Router';
 import { ROUTES, ROUTES_PATH } from '../constants/routes';
-import userEvent from '@testing-library/user-event';
 import Firestore from '../app/Firestore';
 import firebase from '../__mocks__/firebase';
 import { localStorageMock } from '../__mocks__/localStorage.js';
 
 describe('Given I am connected as an employee', () => {
     describe('When I am on Bills Page', () => {
-        test('Then bill icon in vertical layout should be highlighted', () => {
-            jest.mock('../app/Firestore');
+        test('Then window icon in vertical layout should be highlighted', () => {
             Firestore.bills = () => ({
                 bills,
                 get: jest.fn().mockResolvedValue(),
             });
-            Object.defineProperty(window, 'localStorage', {
-                value: localStorageMock,
+            const pathname = ROUTES_PATH['Bills'];
+            Object.defineProperty(window, 'location', {
+                value: { hash: pathname },
             });
             window.localStorage.setItem(
                 'user',
@@ -26,10 +25,6 @@ describe('Given I am connected as an employee', () => {
                     type: 'Employee',
                 })
             );
-            const pathname = ROUTES_PATH['Bills'];
-            Object.defineProperty(window, 'location', {
-                value: { hash: pathname },
-            });
             document.body.innerHTML = `<div id="root"></div>`;
             Router();
             expect(
