@@ -180,30 +180,29 @@ describe('Given I am connected as an employee', () => {
                 expect(handleSubmit).toHaveBeenCalled();
                 expect(screen.getAllByText('Mes notes de frais')).toBeTruthy();
             });
-
-            //POST integration test
-            describe('Given I am a user connected as an Employee', () => {
-                describe('When I submit new bill', () => {
-                    test('POST bill to mock API', async () => {
-                        const newBill = {
-                            pct: 20,
-                            amount: 200,
-                            email: 'a@a',
-                            name: 'test post',
-                            vat: '40',
-                            fileName: 'preview-facture-free-201801-pdf-1.jpg',
-                            date: '2002-02-02',
-                            commentary: 'test2',
-                            type: 'Restaurants et bars',
-                            fileUrl:
-                                'https://firebasestorage.googleapis.com/v0/b/billable-677b6.a…f-1.jpg?alt=media&token=4df6ed2c-12c8-42a2-b013-346c1346f732',
-                        };
-                        const postSpy = jest.spyOn(firebase, 'post');
-                        const postBill = await firebase.post(newBill);
-                        expect(postSpy).toHaveBeenCalledTimes(1);
-                        expect(postBill).toBe('Bill test post received.');
-                    });
-                });
+        });
+    });
+    //POST integration test
+    describe('Given I am a user connected as an Employee', () => {
+        describe('When I submit new bill', () => {
+            test('POST bill to mock API', async () => {
+                const postSpy = jest.spyOn(firebase, 'post');
+                const newBill = {
+                    pct: 20,
+                    amount: 200,
+                    email: 'a@a',
+                    name: 'test post',
+                    vat: '40',
+                    fileName: 'preview-facture-free-201801-pdf-1.jpg',
+                    date: '2002-02-02',
+                    commentary: 'test2',
+                    type: 'Restaurants et bars',
+                    fileUrl:
+                        '"https://firebasestorage.googleapis.com/v0/b/billable-677b6.a…f-1.jpg?alt=media&token=4df6ed2c-12c8-42a2-b013-346c1346f732"',
+                };
+                const postBill = await firebase.post(newBill);
+                expect(postSpy).toHaveBeenCalledTimes(1);
+                expect(postBill).toBe('Bill test post received.');
             });
         });
     });

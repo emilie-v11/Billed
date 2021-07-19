@@ -70,4 +70,8 @@ export default {
             ],
         });
     },
+    
+    post: newBill => {
+        return Promise.resolve('Bill '+ newBill.name +' received.');
+    },
 };

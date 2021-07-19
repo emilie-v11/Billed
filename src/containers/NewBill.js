@@ -87,7 +87,7 @@ export default class NewBill {
 
     handleFile = (file, fileName) => {
         if (this.firestore) {
-            this.irestore.storage
+            this.firestore.storage
                 .ref(`justificatifs/${fileName}`)
                 .put(file)
                 .then(snapshot => snapshot.ref.getDownloadURL())
