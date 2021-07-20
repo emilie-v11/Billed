@@ -2,7 +2,6 @@ import calendarIcon from '../assets/svg/calendar.js';
 import euroIcon from '../assets/svg/euro.js';
 import pctIcon from '../assets/svg/pct.js';
 import eyeWhite from '../assets/svg/eye_white.js';
-import downloadWhite from '../assets/svg/download_white.js';
 import { formatDate } from '../app/format.js';
 
 export const modal = () => `
@@ -73,11 +72,7 @@ export default bill => {
                 <div class='input-field input-flex file-flex'>
                     <span id="file-name-admin">${bill.fileName}</span>
                     <div class='icons-container'>
-                        <span id="icon-eye-d" data-testid="icon-eye-d" data-bill-url="
-                  ${bill.fileUrl}"> ${eyeWhite} </span>
-                        <a href="data:image/jpeg,${
-                            bill.fileUrl
-                        }" id="icon-download-d" data-testid="icon-download-d" download> ${downloadWhite} </a>
+                        <span id="icon-eye-d" data-testid="icon-eye-d" data-bill-url="${bill.fileUrl}"> ${eyeWhite} </span>
                     </div>
                 </div>
             </div>

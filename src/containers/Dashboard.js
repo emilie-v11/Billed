@@ -96,92 +96,32 @@ export default class {
             $('#modaleFileAdmin1').modal('show');
     };
 
-    // Original code :
-    // handleEditTicket(e, bill, bills) {
-    //     if (this.counter === undefined || this.id !== bill.id) this.counter = 0;
-    //     if (this.id === undefined || this.id !== bill.id) this.id = bill.id;
-    //     if (this.counter % 2 === 0) {
-    //         bills.forEach(b => {
-    //             $(`#open-bill${b.id}`).css({ background: '#0D5AE5' });
-    //         });
-    //         $(`#open-bill${bill.id}`).css({ background: '#2A2B35' });
-    //         $('.dashboard-right-container div').html(DashboardFormUI(bill));
-    //         $('.vertical-navbar').css({ height: '150vh' });
-    //         this.counter++;
-    //     } else {
-    //         $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' });
-
-    //         $('.dashboard-right-container div').html(`
-    //         <div id="big-billed-icon"> ${BigBilledIcon} </div>
-    //         `);
-    //         $('.vertical-navbar').css({ height: '120vh' });
-    //         this.counter++;
-    //     }
-    //     $('#icon-eye-d').click(this.handleClickIconEye);
-    //     $('#btn-accept-bill').click(e => this.handleAcceptSubmit(e, bill));
-    //     $('#btn-refuse-bill').click(e => this.handleRefuseSubmit(e, bill));
-    // }
-
-    handleEditTicket(e, bill, bills) {
-        bills.forEach(b => {
-            $(`#open-bill${b.id}`).css({ background: '#0D5AE5' }); // bg-blue
-            // this.counter++;
-        });
+    handleEditTicket(event, bill, bills) {
+        // event.stopPropagation();
+        // event.preventDefault();
         if (this.counter === undefined || this.id !== bill.id) this.counter = 0;
         if (this.id === undefined || this.id !== bill.id) this.id = bill.id;
-        if (this.counter % 2 === 0 || this.counter % 3 === 0) {
-            // bg-black + DashboardFormUI(bill) ==> bill selected / bill displayed
-            $(`#open-bill${bill.id}`).css({ background: '#2A2B35' }); // bg-black
+        if (this.counter % 2 === 0) {
+            bills.forEach(b => {
+                $(`#open-bill${b.id}`).css({ background: '#0D5AE5' });
+            });
+            $(`#open-bill${bill.id}`).css({ background: '#2A2B35' });
             $('.dashboard-right-container div').html(DashboardFormUI(bill));
-            this.counter++;
+            $('.vertical-navbar').css({ height: '150vh' });
+            this.counter = 3; // this.counter ++
         } else {
-            // bg-blue + BigBilledIcon ==> no section / empty
-            $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' }); // bg-blue
+            $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' });
 
             $('.dashboard-right-container div').html(`
-                <div id="big-billed-icon"> ${BigBilledIcon} </div>
+            <div id="big-billed-icon"> ${BigBilledIcon}</div>
             `);
-            this.counter++;
+            $('.vertical-navbar').css({ height: '120vh' });
+            this.counter = 2; // this.counter ++
         }
         $('#icon-eye-d').click(this.handleClickIconEye);
         $('#btn-accept-bill').click(e => this.handleAcceptSubmit(e, bill));
         $('#btn-refuse-bill').click(e => this.handleRefuseSubmit(e, bill));
     }
-
-    // handleEditTicket(e, bill, bills) {
-    //     // console.log('1', this.counter, this.id, bill.id);
-    //     bills.forEach(b => {
-    //         $(`#open-bill${b.id}`).css({ background: '#0D5AE5' }); // bg-blue
-    //         this.counter++;
-    //     });
-    //     if (this.counter === undefined || this.id !== bill.id) this.counter = 0;
-    //     if (this.id === undefined || this.id !== bill.id) this.id = bill.id;
-    //     if (this.counter % 2 === 0 || this.counter % 3 === 0) {
-    //         $(`#open-bill${bill.id}`).css({ background: '#2A2B35' }); // bg-black
-    //         $('.dashboard-right-container div').html(DashboardFormUI(bill));
-    //         this.counter++;
-    //     } else {
-    //         $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' });
-
-    //         $('.dashboard-right-container div').html(`
-    //             <div id="big-billed-icon"> ${BigBilledIcon} </div>
-    //         `);
-    //         this.counter++;
-    //     }
-    //     $('#icon-eye-d').click(this.handleClickIconEye);
-    //     $('#btn-accept-bill').click(e => this.handleAcceptSubmit(e, bill));
-    //     $('#btn-refuse-bill').click(e => this.handleRefuseSubmit(e, bill));
-    // }
-
-    // document
-    //     .querySelector('#icon-eye-d')
-    //     .addEventListener('click', this.handleClickIconEye);
-    // document
-    //     .querySelector('#btn-accept-bill')
-    //     .addEventListener('click', e => this.handleAcceptSubmit(e, bill));
-    // document
-    //     .querySelector('#btn-refuse-bill')
-    //     .addEventListener('click', e => this.handleRefuseSubmit(e, bill));
 
     handleAcceptSubmit = (e, bill) => {
         const newBill = {
@@ -203,30 +143,36 @@ export default class {
         this.onNavigate(ROUTES_PATH['Dashboard']);
     };
 
-    handleShowTickets(e, bills, index) {
+    handleShowTickets(event, bills, index) {
+        // alert(index);
+        // event.stopPropagation();
+        // event.preventDefault();
+
         if (this.counter === undefined || this.index !== index)
             this.counter = 0;
         if (this.index === undefined || this.index !== index)
             this.index = index;
         if (this.counter % 2 === 0) {
             $(`#arrow-icon${this.index}`).css({ transform: 'rotate(0deg)' });
+            // on recupère les bills de la zone sélectionnée
+            let selectedBills = filteredBills(bills, getStatus(this.index));
             $(`#status-bills-container${this.index}`).html(
-                cards(filteredBills(bills, getStatus(this.index)))
+                cards(selectedBills)
             );
+            // on ajoute un ecouteur aux bills de la zone ou drop down selectionné
+            selectedBills.forEach(bill => {
+                $(`#open-bill${bill.id}`).click(event =>
+                    this.handleEditTicket(event, bill, bills)
+                );
+            });
             this.counter++;
         } else {
+            console.log('turn to 90 degré');
             $(`#arrow-icon${this.index}`).css({ transform: 'rotate(90deg)' });
             $(`#status-bills-container${this.index}`).html('');
             this.counter++;
         }
-
-        bills.forEach(bill => {
-            $(`#open-bill${bill.id}`).click(e =>
-                this.handleEditTicket(e, bill, bills)
-            );
-        });
-
-        return bills;
+        return;
     }
 
     // not need to cover this function by tests

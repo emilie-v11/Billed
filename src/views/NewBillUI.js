@@ -62,7 +62,6 @@ export default () => {
               <div class="col-md-6">
                 <div class="col-half">
                   <button type="submit" id='btn-send-bill' class="btn btn-primary mr-3">Envoyer</button>
-                  <a href='http://127.0.0.1:8080/#employee/bills' type="button" id='btn-cancel-bill' class="btn btn-primary">Annuler</a>
                 </div>
               </div>
             </div>
@@ -72,3 +71,5 @@ export default () => {
     </div>
   `;
 };
+
+// <a href='http://127.0.0.1:8080/#employee/bills' type="button" id='btn-cancel-bill' class="btn btn-primary">Annuler</a>
