@@ -11,6 +11,7 @@ import { ROUTES, ROUTES_PATH } from '../constants/routes.js';
 
 export default () => {
     const rootDiv = document.getElementById('root');
+    let pathname = window.location.pathname;
     rootDiv.innerHTML = ROUTES({ pathname: window.location.pathname });
 
     window.onNavigate = pathname => {
@@ -19,6 +20,7 @@ export default () => {
             pathname,
             window.location.origin + pathname
         );
+
         if (pathname === ROUTES_PATH['Login']) {
             rootDiv.innerHTML = ROUTES({ pathname });
             document.body.style.backgroundColor = '#0E5AE5';
@@ -29,6 +31,7 @@ export default () => {
                 PREVIOUS_LOCATION,
                 firestore,
             });
+
         } else if (pathname === ROUTES_PATH['Bills']) {
             rootDiv.innerHTML = ROUTES({ pathname, loading: true });
             const divIcon1 = document.getElementById('layout-icon1');
@@ -59,6 +62,7 @@ export default () => {
                 .catch(error => {
                     rootDiv.innerHTML = ROUTES({ pathname, error });
                 });
+            
         } else if (pathname === ROUTES_PATH['NewBill']) {
             rootDiv.innerHTML = ROUTES({ pathname, loading: true });
             new NewBill({ document, onNavigate, firestore, localStorage });
@@ -66,6 +70,7 @@ export default () => {
             const divIcon2 = document.getElementById('layout-icon2');
             divIcon1.classList.remove('active-icon');
             divIcon2.classList.add('active-icon');
+            
         } else if (pathname === ROUTES_PATH['Dashboard']) {
             rootDiv.innerHTML = ROUTES({ pathname, loading: true });
             const bills = new Dashboard({
